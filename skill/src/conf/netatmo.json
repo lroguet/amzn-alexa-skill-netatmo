@@ -1,0 +1,25 @@
+{
+  "slotToDataType": {
+    "carbon dioxide": "co2",
+    "humidity": "humidity",
+    "noise": "noise",
+    "pressure": "pressure",
+    "temperature": "temperature"
+  },
+  "dataTypeToSpeech": {
+    "co2": "carbon dioxide level",
+    "humidity": "humidity",
+    "noise": "noise level",
+    "pressure": "pressure",
+    "temperature": "temperature",
+    "wind": "wind speed"
+  },
+  "dataTypeToUnit": {
+    "co2": "ppm",
+    "humidity": "%",
+    "noise": "dB",
+    "pressure": ["mbar", "inHg", "mmHg"],
+    "temperature": ["Celsius", "Fahrenheit"],
+    "wind": ["kph", "mph", "ms", "beaufort", "knot"]
+  }
+}

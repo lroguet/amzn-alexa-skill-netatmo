@@ -1,0 +1,21 @@
+{
+    "intents": [
+      {
+        "intent": "GetMeasurementIntent",
+        "slots": [
+          {
+            "name": "MeasurementName",
+            "type": "LIST_OF_MEASUREMENTS"
+          },
+          {
+            "name": "SensorName",
+            "type": "LIST_OF_SENSORS"
+          }
+        ]
+      },
+      {
+        "intent": "ListSensorsIntent",
+        "slots": []
+    }
+  ]
+}

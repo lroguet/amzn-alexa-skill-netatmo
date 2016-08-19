@@ -1,0 +1,21 @@
+GetMeasurementIntent {MeasurementName}
+GetMeasurementIntent {MeasurementName} {SensorName}
+GetMeasurementIntent {MeasurementName} in the {SensorName}
+GetMeasurementIntent get me the {MeasurementName}
+GetMeasurementIntent get me the {MeasurementName} {SensorName}
+GetMeasurementIntent get me the {MeasurementName} in the {SensorName}
+GetMeasurementIntent give me the {MeasurementName}
+GetMeasurementIntent give me the {MeasurementName} {SensorName}
+GetMeasurementIntent give me the {MeasurementName} in the {SensorName}
+GetMeasurementIntent tell me the {MeasurementName}
+GetMeasurementIntent tell me the {MeasurementName} {SensorName}
+GetMeasurementIntent tell me the {MeasurementName} in the {SensorName}
+GetMeasurementIntent what's the {MeasurementName}
+GetMeasurementIntent what's the {MeasurementName} {SensorName}
+GetMeasurementIntent what's the {MeasurementName} in the {SensorName}
+GetMeasurementIntent what is the {MeasurementName}
+GetMeasurementIntent what is the {MeasurementName} {SensorName}
+GetMeasurementIntent what is the {MeasurementName} in the {SensorName}
+
+ListSensorsIntent my sensors
+ListSensorsIntent to list my sensors

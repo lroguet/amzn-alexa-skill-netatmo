@@ -1,0 +1,9 @@
+{
+  "apiError": "Sorry but I couldn't retrieve your Netatmo weather station's data.",
+  "help": "I'm here to help you retrieve measurements from your Netatmo weather station.",
+  "measurement": "The %s is %s %s according to the sensor named %s.",
+  "measurementNotFound": "%s is not available on the sensor named %s.",
+  "sensorNotFound": "I couldn't find a sensor named %s in your Netatmo setup.",
+  "sensors": "You can retrieve weather data from the following sensors: %s.",
+  "weatherStationNotFound": "In order to use %s, you need to own a Netatmo weather station and have it linked to your Netatmo account."
+}
