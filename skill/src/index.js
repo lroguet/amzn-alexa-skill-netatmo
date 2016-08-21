@@ -56,7 +56,6 @@ function atmo(event, context) {
 // - Check for a valid access token, otherwise, display a Link account card
 var handlers = {
   'GetMeasurement': function() {
-    console.log("index.js - handlers.GetMeasurement");
     if (!communicationWasSuccessful()) { this.emit(':tell', MESSAGES.voice.apiError); }
     else if (!accessTokenWasProvided()) { this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title)); }
     else {
@@ -69,7 +68,6 @@ var handlers = {
     }
   },
   'LaunchRequest': function() {
-    console.log("index.js - handlers.LaunchRequest");
     // Launching the skill will read the temperature from the base station
     this.emit('GetMeasurement');
   },
@@ -106,8 +104,8 @@ function getTheWeatherStationSensors() {
 function getTheWeatherStationData(measurement, sensor) {
 
   if(hasWeatherData()) {
-    console.log("Data", JSON.stringify(data));
 
+    // console.log("Data", JSON.stringify(data));
     var _data = JSON.parse(getSanitized(JSON.stringify(data)));
     var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
     var _sensor = getSanitized(sensor);
@@ -131,7 +129,7 @@ function getTheWeatherStationData(measurement, sensor) {
     // ... and the unit
     var unit = getUserUnits()[dataType];
 
-    // All good, we've got something to tell the user
+    // All good, we've got something to say back to the user
     return UTIL.format(MESSAGES.voice.measurement, NAMES[dataType], value, unit, sensor);
 
   } else {
