@@ -80,8 +80,11 @@ var handlers = {
       this.emit(':tell', getTheWeatherStationSensors());
     }
   },
-  'Unhandled': function() {
+  'AMAZON.HelpIntent': function() {
     this.emit(':ask', MESSAGES.voice.help, MESSAGES.voice.help);
+  },
+  'Unhandled': function() {
+    this.emit('AMAZON.HelpIntent');
   }
 };
 
