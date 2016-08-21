@@ -1,8 +1,10 @@
 {
   "slotToDataType": {
     "carbon dioxide": "co2",
+    "carbon dioxide level": "co2",
     "humidity": "humidity",
     "noise": "noise",
+    "noise level": "noise",
     "pressure": "pressure",
     "temperature": "temperature"
   },

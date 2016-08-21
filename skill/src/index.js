@@ -19,7 +19,10 @@ var NAMES = NETATMO.dataTypeToSpeech;
 var SLOTS = NETATMO.slotToDataType;
 var UNITS = NETATMO.dataTypeToUnit;
 
-var DEFAULTdataType = 'temperature';
+var ERRORS = {
+  ACCESS_TOKEN_NA: '_ACCESS_TOKEN_NA',
+  NETATMO_API_ERROR: '_NETATMO_API_ERROR'
+};
 var UNDEFINED = 'undefined';
 
 // -----------------------------------------------------------------------------
@@ -31,6 +34,7 @@ exports.handler = function(event, context, callback) {
 
   // Fetch weather data right now since it's pretty much required for
   // all intents, then move on to 'Atmo'
+  console.log("index.js - entry point.");
   getAllWeatherStationData(event, context, atmo);
 
 };
@@ -38,6 +42,7 @@ exports.handler = function(event, context, callback) {
 // Main function
 function atmo(event, context) {
 
+  console.log("index.js - atmo");
   var alexa = ALEXA.handler(event, context);
   alexa.appId = CREDENTIALS.amazonApplicationId;
   alexa.registerHandlers(handlers);
@@ -46,24 +51,37 @@ function atmo(event, context) {
 }
 
 // Intent handlers
+// TODO.
+// - Move hasWeatherData = false to a common method
+// - Check for a valid access token, otherwise, display a Link account card
 var handlers = {
   'GetMeasurement': function() {
-    this.emit(':tell',
-      getTheWeatherStationData(
-        getSpokenOrDefaultMeasurementName(this.event.request.intent),
-        getSpokenOrDefaultSensorName(this.event.request.intent)
-      )
-    );
+    console.log("index.js - handlers.GetMeasurement");
+    if (!communicationWasSuccessful()) { this.emit(':tell', MESSAGES.voice.apiError); }
+    else if (!accessTokenWasProvided()) { this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title)); }
+    else {
+      this.emit(':tell',
+        getTheWeatherStationData(
+          getSpokenOrDefaultMeasurementName(this.event.request.intent),
+          getSpokenOrDefaultSensorName(this.event.request.intent)
+        )
+      );
+    }
   },
   'LaunchRequest': function() {
+    console.log("index.js - handlers.LaunchRequest");
     // Launching the skill will read the temperature from the base station
     this.emit('GetMeasurement');
   },
   'ListSensors': function() {
-    this.emit(':tell', getTheWeatherStationSensors());
+    if (!communicationWasSuccessful()) { this.emit(':tell', MESSAGES.voice.apiError); }
+    else if (!accessTokenWasProvided()) { this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title)); }
+    else {
+      this.emit(':tell', getTheWeatherStationSensors());
+    }
   },
   'Unhandled': function() {
-    this.emit(':ask', MESSAGES.help, MESSAGES.help);
+    this.emit(':ask', MESSAGES.voice.help, MESSAGES.voice.help);
   }
 };
 
@@ -71,50 +89,51 @@ var handlers = {
 
 function getTheWeatherStationSensors() {
 
-  if(!hasWeatherData()) {
-    return MESSAGES.weatherStationNotFound;
+  if(hasWeatherData()) {
+    // Find the name of the base station name & all the additional modules
+    var pattern = "[ body.devices[].modules[].module_name, body.devices[].module_name ] | []";
+    var result = JMESPATH.search(data, pattern);
+    return UTIL.format(MESSAGES.voice.sensors, result.join(", "));
+  } else {
+    return MESSAGES.voice.weatherStationNotFound;
   }
-
-  var pattern = "[ body.devices[].modules[].module_name, body.devices[].module_name ] | []";
-  var result = JMESPATH.search(data, pattern);
-
-  return UTIL.format(MESSAGES.sensors, result.join(", "));
 
 }
 
 function getTheWeatherStationData(measurement, sensor) {
 
-  // console.log("Data", JSON.stringify(data));
+  if(hasWeatherData()) {
+    console.log("Data", JSON.stringify(data));
 
-  if(!hasWeatherData()) {
-    return UTIL.format(MESSAGES.weatherStationNotFound, SKILL.title);
+    var _data = JSON.parse(getSanitized(JSON.stringify(data)));
+    var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
+    var _sensor = getSanitized(sensor);
+
+    // console.log("Got '" + measurement + "' on '" + sensor + "'.");
+    // console.log("Looking for '" + dataType + "' on '" + _sensor + "'.");
+
+    // Exit if the sensor does not exist
+    if(!sensorExists(_data, _sensor)) {
+      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
+    }
+
+    // Exit if the sensor cannot provide with the measurement
+    if(!dataTypeProvidedBySensor(_data, dataType, _sensor)) {
+      return UTIL.format(MESSAGES.voice.measurementNotFound, measurement, sensor);
+    }
+
+    // Get the value...
+    var pattern = "[ body.devices[?module_name==`" + _sensor + "`].dashboard_data." + dataType + ", body.devices[].modules[?module_name==`" + _sensor + "`].dashboard_data." + dataType + " | [] ] | []";
+    var value = JMESPATH.search(_data, pattern);
+    // ... and the unit
+    var unit = getUserUnits()[dataType];
+
+    // All good, we've got something to tell the user
+    return UTIL.format(MESSAGES.voice.measurement, NAMES[dataType], value, unit, sensor);
+
+  } else {
+    return MESSAGES.voice.weatherStationNotFound;
   }
-
-  var _data = JSON.parse(getSanitized(JSON.stringify(data)));
-  var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
-  var _sensor = getSanitized(sensor);
-
-  // console.log("Got '" + measurement + "' on '" + sensor + "'.");
-  // console.log("Looking for '" + dataType + "' on '" + _sensor + "'.");
-
-  // Exit if the sensor does not exist
-  if(!sensorExists(_data, _sensor)) {
-    return UTIL.format(MESSAGES.sensorNotFound, sensor);
-  }
-
-  // Exit if the sensor cannot provide with the measurement
-  if(!dataTypeProvidedBySensor(_data, dataType, _sensor)) {
-    return UTIL.format(MESSAGES.measurementNotFound, measurement, sensor);
-  }
-
-  // Get the value...
-  var pattern = "[ body.devices[?module_name==`" + _sensor + "`].dashboard_data." + dataType + ", body.devices[].modules[?module_name==`" + _sensor + "`].dashboard_data." + dataType + " | [] ] | []";
-  var value = JMESPATH.search(_data, pattern);
-  // ... and the unit
-  var unit = getUserUnits()[dataType];
-
-  // All good, we've got something to tell the user
-  return UTIL.format(MESSAGES.measurement, NAMES[dataType], value, unit, sensor);
 
 }
 
@@ -153,7 +172,6 @@ function sensorExists(data, sensor) {
 
   var pattern = "[ body.devices[?module_name==`" + sensor + "`], body.devices[].modules[?module_name==`" + sensor + "`] | [] ] | []";
   var result = JMESPATH.search(data, pattern);
-
   return result.length > 0;
 
 }
@@ -162,7 +180,6 @@ function dataTypeProvidedBySensor(data, dataType, sensor) {
 
     var pattern = "[ body.devices[?module_name==`" + sensor + "`].dashboard_data." + dataType + ", body.devices[].modules[?module_name==`" + sensor + "`].dashboard_data." + dataType + " | [] ] | []";
     var result = JMESPATH.search(data, pattern);
-
     return result.length > 0;
 
 }
@@ -175,18 +192,35 @@ function getSanitized(text) {
 
 }
 
-// Check whether the data contains the bare minimum needed to answer the most
-// basic intent
+// Checks whether the data contains the bare minimum needed to answer the most
+// basic intents
 function hasWeatherData() {
 
   return data.body
     && data.body.user && data.body.user.administrative
-    && data.body.devices && data.body.devices._id;
+    && data.body.devices && (data.body.devices.length > 0);
 
+}
+
+// Returns true if the API call to Netatmo was a success
+function communicationWasSuccessful() {
+  return data != ERRORS.NETATMO_API_ERROR;
+}
+
+// Returns true if the access token to the Netatmo API was provided
+function accessTokenWasProvided() {
+  return data != ERRORS.ACCESS_TOKEN_NA;
 }
 
 // Retrieves weather data from the Netatmo API
 function getAllWeatherStationData(event, context, callback) {
+
+  console.log("index.js - getAllWeatherStationData");
+  // Access token is required
+  if(!(event && event.session && event.session.user && event.session.user.accessToken)) {
+    data = ERRORS.ACCESS_TOKEN_NA;
+    callback(event, context);
+  }
 
   var requestData = QUERYSTRING.stringify(
     { 'access_token': event.session.user.accessToken }
@@ -207,8 +241,8 @@ function getAllWeatherStationData(event, context, callback) {
       response.setEncoding('utf8');
       // On error
       response.on('error', function(error) {
-        console.error("Request to api.netatmo.com failed.", error);
-        context.fail(MESSAGES.apiError);
+        data = ERRORS.NETATMO_API_ERROR;
+        callback(event, context);
       });
       // Incoming response
       var incoming = '';

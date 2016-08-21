@@ -8,7 +8,7 @@ I tried to make it as easy as possible to extend the skill with new intents, utt
 ## Setup
 The skill supports oAuth so you only need to grant the skill access to your Netatmo weather station measurements from the Alexa App when you enable the skill for the first time.
 
-![Netatmo Weather Station](https://github.com/lroguet/amazon-echo-netatmo/blob/master/assets/images/netatmo-weather-station.jpg)
+![Netatmo Weather Station](https://raw.githubusercontent.com/lroguet/amzn-alexa-skill-netatmo/master/assets/images/netatmo-weather-station.jpg)
 
 ## Supported measurements
 * carbon dioxide level
