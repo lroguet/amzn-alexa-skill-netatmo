@@ -234,7 +234,6 @@ function accessTokenWasProvided() {
 // Retrieves weather data from the Netatmo API
 function getAllWeatherStationData(event, context, callback) {
 
-  console.log("index.js - getAllWeatherStationData");
   // Access token is required
   if(!(event && event.session && event.session.user && event.session.user.accessToken)) {
     data = ERRORS.ACCESS_TOKEN_NA;
