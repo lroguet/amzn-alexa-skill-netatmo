@@ -85,8 +85,12 @@ var handlers = {
     } else if (!communicationWasSuccessful()) {
       this.emit(':tell', MESSAGES.voice.apiError);
     } else {
-      var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
-      this.emit(':ask', message, message);
+      if(hasWeatherData()) {
+        var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
+        this.emit(':ask', message, message);
+      } else {
+        this.emit(':tell', MESSAGES.voice.weatherStationNotFound);
+      }
     }
   },
   'AMAZON.YesIntent': function() {
