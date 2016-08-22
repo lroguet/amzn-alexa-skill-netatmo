@@ -28,13 +28,14 @@ var UNDEFINED = 'undefined';
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+// Holds the response (or an error type from ERRORS) from the call to the
+// Netatmo API
 var data;
 
 exports.handler = function(event, context, callback) {
 
   // Fetch weather data right now since it's pretty much required for
   // all intents, then move on to 'Atmo'
-  console.log("index.js - entry point.");
   getAllWeatherStationData(event, context, atmo);
 
 };
@@ -42,7 +43,6 @@ exports.handler = function(event, context, callback) {
 // Main function
 function atmo(event, context) {
 
-  console.log("index.js - atmo");
   var alexa = ALEXA.handler(event, context);
   alexa.appId = CREDENTIALS.amazonApplicationId;
   alexa.registerHandlers(handlers);
@@ -51,14 +51,13 @@ function atmo(event, context) {
 }
 
 // Intent handlers
-// TODO.
-// - Move hasWeatherData = false to a common method
-// - Check for a valid access token, otherwise, display a Link account card
 var handlers = {
   'GetMeasurement': function() {
-    if (!communicationWasSuccessful()) { this.emit(':tell', MESSAGES.voice.apiError); }
-    else if (!accessTokenWasProvided()) { this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title)); }
-    else {
+    if (!accessTokenWasProvided()) {
+      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
+    } else if (!communicationWasSuccessful()) {
+      this.emit(':tell', MESSAGES.voice.apiError);
+    } else {
       this.emit(':tell',
         getTheWeatherStationData(
           getSpokenOrDefaultMeasurementName(this.event.request.intent),
@@ -72,14 +71,29 @@ var handlers = {
     this.emit('GetMeasurement');
   },
   'ListSensors': function() {
-    if (!communicationWasSuccessful()) { this.emit(':tell', MESSAGES.voice.apiError); }
-    else if (!accessTokenWasProvided()) { this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title)); }
-    else {
+    if (!accessTokenWasProvided()) {
+      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
+    } else if (!communicationWasSuccessful()) {
+      this.emit(':tell', MESSAGES.voice.apiError);
+    } else {
       this.emit(':tell', getTheWeatherStationSensors());
     }
   },
   'AMAZON.HelpIntent': function() {
-    this.emit(':ask', MESSAGES.voice.help, MESSAGES.voice.help);
+    if (!accessTokenWasProvided()) {
+      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
+    } else if (!communicationWasSuccessful()) {
+      this.emit(':tell', MESSAGES.voice.apiError);
+    } else {
+      var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
+      this.emit(':ask', message, message);
+    }
+  },
+  'AMAZON.YesIntent': function() {
+      this.emit('GetMeasurement');
+  },
+  'AMAZON.NoIntent': function() {
+      this.emit(':tell', "No worries. Talk to you later.");
   },
   'Unhandled': function() {
     this.emit('AMAZON.HelpIntent');
@@ -115,7 +129,7 @@ function getTheWeatherStationData(measurement, sensor) {
 
     // Exit if the sensor does not exist
     if(!sensorExists(_data, _sensor)) {
-      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
+      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor) + " " + getTheWeatherStationSensors();
     }
 
     // Exit if the sensor cannot provide with the measurement
