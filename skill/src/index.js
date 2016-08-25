@@ -133,7 +133,7 @@ function getTheWeatherStationData(measurement, sensor) {
 
     // Exit if the sensor does not exist
     if(!sensorExists(_data, _sensor)) {
-      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor) + " " + getTheWeatherStationSensors();
+      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
     }
 
     // Exit if the sensor cannot provide with the measurement
