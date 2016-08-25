@@ -3,10 +3,13 @@
     "carbon dioxide": "co2",
     "carbon dioxide level": "co2",
     "humidity": "humidity",
+    "humidity level": "humidity",
     "noise": "noise",
     "noise level": "noise",
     "pressure": "pressure",
-    "temperature": "temperature"
+    "pressure level": "pressure",
+    "temperature": "temperature",
+    "temperature level": "temperature"
   },
   "dataTypeToSpeech": {
     "co2": "carbon dioxide level",
