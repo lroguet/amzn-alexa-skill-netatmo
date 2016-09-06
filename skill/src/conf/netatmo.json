@@ -23,8 +23,21 @@
     "co2": "ppm",
     "humidity": "%",
     "noise": "dB",
-    "pressure": ["mbar", "inHg", "mmHg"],
-    "temperature": ["Celsius", "Fahrenheit"],
-    "wind": ["kph", "mph", "ms", "beaufort", "knot"]
+    "pressure": [
+      "mbar",
+      "inHg",
+      "mmHg"
+    ],
+    "temperature": [
+      "Celsius",
+      "Fahrenheit"
+    ],
+    "wind": [
+      "kph",
+      "mph",
+      "ms",
+      "beaufort",
+      "knot"
+    ]
   }
 }

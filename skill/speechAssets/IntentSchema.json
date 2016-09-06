@@ -1,21 +1,30 @@
 {
-    "intents": [{
-        "intent": "GetMeasurement",
-        "slots": [{
-            "name": "MeasurementName",
-            "type": "LIST_OF_MEASUREMENTS"
-        }, {
-            "name": "SensorName",
-            "type": "LIST_OF_SENSORS"
-        }]
-    }, {
-        "intent": "ListSensors",
-        "slots": []
-    }, {
-        "intent": "AMAZON.HelpIntent"
-    }, {
-        "intent": "AMAZON.YesIntent"
-    }, {
-        "intent": "AMAZON.NoIntent"
-    }]
+  "intents": [
+    {
+      "intent": "GetMeasurement",
+      "slots": [
+        {
+          "name": "MeasurementName",
+          "type": "LIST_OF_MEASUREMENTS"
+        },
+        {
+          "name": "SensorName",
+          "type": "LIST_OF_SENSORS"
+        }
+      ]
+    },
+    {
+      "intent": "ListSensors",
+      "slots": []
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    }
+  ]
 }
