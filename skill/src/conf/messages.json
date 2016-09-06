@@ -7,6 +7,7 @@
     "measurementNotFound": "%s is not a measurement available on the sensor named %s.",
     "sensorNotFound": "I could not find a sensor named %s in your Netatmo setup.",
     "sensors": "You can retrieve weather data from the following sensors: %s.",
-    "weatherStationNotFound": "Sorry but I could not find a weather station linked to your Netatmo account."
+    "weatherStationNotFound": "Sorry but I could not find a weather station linked to your Netatmo account.",
+    "welcome": "Welcome to %s. Would you like me to go ahead and retrieve the temperature measured by the sensor named %s?"
   }
 }
