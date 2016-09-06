@@ -67,8 +67,8 @@ var handlers = {
     }
   },
   'LaunchRequest': function() {
-    // Launching the skill will read the temperature from the base station
-    this.emit('GetMeasurement');
+    // Launching the skill is equivalent to asking for help
+    this.emit('AMAZON.HelpIntent');
   },
   'ListSensors': function() {
     if (!accessTokenWasProvided()) {
@@ -207,7 +207,8 @@ function dataTypeProvidedBySensor(data, dataType, sensor) {
 
 function getSanitized(text) {
 
-  return text.replace(/[']/g, "").toLocaleLowerCase();
+  text = text.replace(/[']/g, ""); // Kid's bedroom => Kids bedroom
+  return text.toLocaleLowerCase();
 
 }
 
