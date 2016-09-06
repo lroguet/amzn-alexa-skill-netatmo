@@ -1,21 +1,27 @@
-GetMeasurementIntent {MeasurementName}
-GetMeasurementIntent {MeasurementName} {SensorName}
-GetMeasurementIntent {MeasurementName} in the {SensorName}
-GetMeasurementIntent get me the {MeasurementName}
-GetMeasurementIntent get me the {MeasurementName} {SensorName}
-GetMeasurementIntent get me the {MeasurementName} in the {SensorName}
-GetMeasurementIntent give me the {MeasurementName}
-GetMeasurementIntent give me the {MeasurementName} {SensorName}
-GetMeasurementIntent give me the {MeasurementName} in the {SensorName}
-GetMeasurementIntent tell me the {MeasurementName}
-GetMeasurementIntent tell me the {MeasurementName} {SensorName}
-GetMeasurementIntent tell me the {MeasurementName} in the {SensorName}
-GetMeasurementIntent what's the {MeasurementName}
-GetMeasurementIntent what's the {MeasurementName} {SensorName}
-GetMeasurementIntent what's the {MeasurementName} in the {SensorName}
-GetMeasurementIntent what is the {MeasurementName}
-GetMeasurementIntent what is the {MeasurementName} {SensorName}
-GetMeasurementIntent what is the {MeasurementName} in the {SensorName}
+GetMeasurement {MeasurementName}
+GetMeasurement {MeasurementName} {SensorName}
+GetMeasurement {MeasurementName} in {SensorName}
+GetMeasurement {MeasurementName} in the {SensorName}
+GetMeasurement get me the {MeasurementName}
+GetMeasurement get me the {MeasurementName} {SensorName}
+GetMeasurement get me the {MeasurementName} in {SensorName}
+GetMeasurement get me the {MeasurementName} in the {SensorName}
+GetMeasurement give me the {MeasurementName}
+GetMeasurement give me the {MeasurementName} {SensorName}
+GetMeasurement give me the {MeasurementName} in {SensorName}
+GetMeasurement give me the {MeasurementName} in the {SensorName}
+GetMeasurement tell me the {MeasurementName}
+GetMeasurement tell me the {MeasurementName} {SensorName}
+GetMeasurement tell me the {MeasurementName} in {SensorName}
+GetMeasurement tell me the {MeasurementName} in the {SensorName}
+GetMeasurement what's the {MeasurementName}
+GetMeasurement what's the {MeasurementName} {SensorName}
+GetMeasurement what's the {MeasurementName} in {SensorName}
+GetMeasurement what's the {MeasurementName} in the {SensorName}
+GetMeasurement what is the {MeasurementName}
+GetMeasurement what is the {MeasurementName} {SensorName}
+GetMeasurement what is the {MeasurementName} in {SensorName}
+GetMeasurement what is the {MeasurementName} in the {SensorName}
 
-ListSensorsIntent my sensors
-ListSensorsIntent to list my sensors
+ListSensors my sensors
+ListSensors to list my sensors
