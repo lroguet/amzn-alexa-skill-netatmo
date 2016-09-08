@@ -94,10 +94,16 @@ var handlers = {
     }
   },
   'AMAZON.YesIntent': function() {
-      this.emit('GetMeasurement');
+    this.emit('GetMeasurement');
   },
   'AMAZON.NoIntent': function() {
-      this.emit(':tell', "No worries. Talk to you later.");
+    this.emit(':tell', "Okay. Talk to you later.");
+  },
+  'AMAZON.CancelIntent': function() {
+    this.emit('AMAZON.NoIntent');
+  },
+  'AMAZON.StopIntent': function() {
+    this.emit('AMAZON.NoIntent');
   },
   'Unhandled': function() {
     this.emit('AMAZON.HelpIntent');
