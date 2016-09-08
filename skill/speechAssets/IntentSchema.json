@@ -18,13 +18,19 @@
       "slots": []
     },
     {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
       "intent": "AMAZON.HelpIntent"
     },
     {
-      "intent": "AMAZON.YesIntent"
+      "intent": "AMAZON.NoIntent"
     },
     {
-      "intent": "AMAZON.NoIntent"
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
     }
   ]
 }
