@@ -53,11 +53,7 @@ function atmo(event, context) {
 // Intent handlers
 var handlers = {
   'GetMeasurement': function() {
-    if (!accessTokenWasProvided()) {
-      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
-    } else if (!communicationWasSuccessful()) {
-      this.emit(':tell', MESSAGES.voice.apiError);
-    } else {
+    if(canProvideWithResponse()) {
       this.emit(':tell',
         getTheWeatherStationData(
           getSpokenOrDefaultMeasurementName(this.event.request.intent),
@@ -71,20 +67,12 @@ var handlers = {
     this.emit('AMAZON.HelpIntent');
   },
   'ListSensors': function() {
-    if (!accessTokenWasProvided()) {
-      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
-    } else if (!communicationWasSuccessful()) {
-      this.emit(':tell', MESSAGES.voice.apiError);
-    } else {
+    if(canProvideWithResponse()) {
       this.emit(':tell', getTheWeatherStationSensors());
     }
   },
   'AMAZON.HelpIntent': function() {
-    if (!accessTokenWasProvided()) {
-      this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
-    } else if (!communicationWasSuccessful()) {
-      this.emit(':tell', MESSAGES.voice.apiError);
-    } else {
+    if(canProvideWithResponse()) {
       if(hasWeatherData()) {
         var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
         this.emit(':ask', message, message);
@@ -109,6 +97,29 @@ var handlers = {
     this.emit('AMAZON.HelpIntent');
   }
 };
+
+
+// --- Error handler -----------------------------------------------------------
+// Returns true if the user request can be fulfilled, emits the appropriate
+// reponse and returns false otherwise.
+function canProvideWithResponse() {
+
+  // Access token to the Netatmo API was not provided, emits a link account card
+  if(!accessTokenWasProvided()) {
+    this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
+    return false;
+  }
+
+  // An error occured while contacting the Netatmo API, emits an error message
+  if (!communicationWasSuccessful()) {
+    this.emit(':tell', MESSAGES.voice.apiError);
+    return false;
+  }
+
+  // Things are looking good
+  return true;
+
+}
 
 // --- Helpers for intents -----------------------------------------------------
 
