@@ -135,7 +135,7 @@ function getTheSensorAvailableMeasurements(sensor) {
       return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
     }
 
-    var pattern = "[ body.devices[?module_name==`"+_sensor+"`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
+    var pattern = "[ body.devices[?module_name==`" + _sensor + "`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
     var result = JMESPATH.search(data, pattern);
     return UTIL.format(MESSAGES.voice.measurements, sensor, result.join(", "));
 
