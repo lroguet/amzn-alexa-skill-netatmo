@@ -4,6 +4,7 @@
     "apiError": "It looks like Netamo is experiencing some technical issues and I could not retrieve your weather station's data.",
     "help": "%s helps you retrieve measurements such as temperature, humidity and noise level from your Netatmo weather station. Would you like me to go ahead and retrieve the temperature measured by the sensor named %s?",
     "measurement": "The %s is %s %s according to the sensor named %s.",
+    "measurements": "The sensor named %s can provide you with: %s.",
     "measurementNotFound": "%s is not a measurement available on the sensor named %s.",
     "sensorNotFound": "I could not find a sensor named %s in your Netatmo setup.",
     "sensors": "You can retrieve weather data from the following sensors: %s.",

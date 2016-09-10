@@ -112,6 +112,28 @@ var handlers = {
 
 // --- Helpers for intents -----------------------------------------------------
 
+function getTheSensorAvailableMeasurements(sensor) {
+
+  if(hasWeatherData()) {
+
+    var _data = JSON.parse(getSanitized(JSON.stringify(data)));
+    var _sensor = getSanitized(sensor);
+
+    // Exit if the sensor does not exist
+    if(!sensorExists(_data, _sensor)) {
+      return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
+    }
+
+    var pattern = "[ body.devices[?module_name==`"+_sensor+"`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
+    var result = JMESPATH.search(data, pattern);
+    return UTIL.format(MESSAGES.voice.measurements, sensor, result.join(", "));
+
+  } else {
+    return MESSAGES.voice.weatherStationNotFound;
+  }
+
+}
+
 function getTheWeatherStationSensors() {
 
   if(hasWeatherData()) {
