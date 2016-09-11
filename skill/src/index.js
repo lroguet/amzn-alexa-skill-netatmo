@@ -66,6 +66,15 @@ var handlers = {
     // Launching the skill is equivalent to asking for help
     this.emit('AMAZON.HelpIntent');
   },
+  'ListMeasurements': function() {
+    if(canProvideWithResponse()) {
+      this.emit(':tell',
+        getTheSensorAvailableMeasurements(
+          getSpokenOrDefaultSensorName(this.event.request.intent)
+        )
+      );
+    }
+  },
   'ListSensors': function() {
     if(canProvideWithResponse()) {
       this.emit(':tell', getTheWeatherStationSensors());
