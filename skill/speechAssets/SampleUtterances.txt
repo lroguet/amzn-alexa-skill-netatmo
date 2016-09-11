@@ -1,27 +1,28 @@
 GetMeasurement {MeasurementName}
 GetMeasurement {MeasurementName} {SensorName}
-GetMeasurement {MeasurementName} in {SensorName}
 GetMeasurement {MeasurementName} in the {SensorName}
 GetMeasurement get me the {MeasurementName}
 GetMeasurement get me the {MeasurementName} {SensorName}
-GetMeasurement get me the {MeasurementName} in {SensorName}
 GetMeasurement get me the {MeasurementName} in the {SensorName}
 GetMeasurement give me the {MeasurementName}
 GetMeasurement give me the {MeasurementName} {SensorName}
-GetMeasurement give me the {MeasurementName} in {SensorName}
 GetMeasurement give me the {MeasurementName} in the {SensorName}
 GetMeasurement tell me the {MeasurementName}
 GetMeasurement tell me the {MeasurementName} {SensorName}
-GetMeasurement tell me the {MeasurementName} in {SensorName}
 GetMeasurement tell me the {MeasurementName} in the {SensorName}
 GetMeasurement what's the {MeasurementName}
 GetMeasurement what's the {MeasurementName} {SensorName}
-GetMeasurement what's the {MeasurementName} in {SensorName}
 GetMeasurement what's the {MeasurementName} in the {SensorName}
 GetMeasurement what is the {MeasurementName}
 GetMeasurement what is the {MeasurementName} {SensorName}
-GetMeasurement what is the {MeasurementName} in {SensorName}
 GetMeasurement what is the {MeasurementName} in the {SensorName}
+
+ListMeasurements to list the measurements
+ListMeasurements to list the measurements available {SensorName}
+ListMeasurements to list the measurements available in the {SensorName}
+ListMeasurements what are the measurements
+ListMeasurements what are the measurements available {SensorName}
+ListMeasurements what are the measurements available in the {SensorName}
 
 ListSensors my sensors
 ListSensors to list my sensors
