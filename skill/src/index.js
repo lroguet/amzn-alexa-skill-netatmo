@@ -145,7 +145,13 @@ function getTheSensorAvailableMeasurements(sensor) {
     }
 
     var pattern = "[ body.devices[?module_name==`" + _sensor + "`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
-    var result = JMESPATH.search(data, pattern);
+    var result = JMESPATH.search(_data, pattern);
+
+    // Replace data types with speech values
+    for(var i = 0; i < result.length; i++) {
+      result[i] = NAMES[result[i]];
+    }
+
     return UTIL.format(MESSAGES.voice.measurements, sensor, result.join(", "));
 
   } else {
