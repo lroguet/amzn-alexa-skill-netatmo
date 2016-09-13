@@ -53,7 +53,7 @@ function atmo(event, context) {
 // Intent handlers
 var handlers = {
   'GetMeasurement': function() {
-    if(canProvideWithResponse()) {
+    if(canProvideWithResponse(this)) {
       this.emit(':tell',
         getTheWeatherStationData(
           getSpokenOrDefaultMeasurementName(this.event.request.intent),
@@ -67,7 +67,7 @@ var handlers = {
     this.emit('AMAZON.HelpIntent');
   },
   'ListMeasurements': function() {
-    if(canProvideWithResponse()) {
+    if(canProvideWithResponse(this)) {
       this.emit(':tell',
         getTheSensorAvailableMeasurements(
           getSpokenOrDefaultSensorName(this.event.request.intent)
@@ -76,12 +76,12 @@ var handlers = {
     }
   },
   'ListSensors': function() {
-    if(canProvideWithResponse()) {
+    if(canProvideWithResponse(this)) {
       this.emit(':tell', getTheWeatherStationSensors());
     }
   },
   'AMAZON.HelpIntent': function() {
-    if(canProvideWithResponse()) {
+    if(canProvideWithResponse(this)) {
       if(hasWeatherData()) {
         var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
         this.emit(':ask', message, message);
@@ -111,17 +111,17 @@ var handlers = {
 // --- Error handler -----------------------------------------------------------
 // Returns true if the user request can be fulfilled, emits the appropriate
 // reponse and returns false otherwise.
-function canProvideWithResponse() {
+function canProvideWithResponse(context) {
 
   // Access token to the Netatmo API was not provided, emits a link account card
   if(!accessTokenWasProvided()) {
-    this.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
+    context.emit(':tellWithLinkAccountCard', UTIL.format(MESSAGES.voice.accountLinking, SKILL.title));
     return false;
   }
 
   // An error occured while contacting the Netatmo API, emits an error message
   if (!communicationWasSuccessful()) {
-    this.emit(':tell', MESSAGES.voice.apiError);
+    context.emit(':tell', MESSAGES.voice.apiError);
     return false;
   }
 
