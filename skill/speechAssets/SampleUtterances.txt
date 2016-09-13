@@ -17,12 +17,14 @@ GetMeasurement what is the {MeasurementName}
 GetMeasurement what is the {MeasurementName} {SensorName}
 GetMeasurement what is the {MeasurementName} in the {SensorName}
 
+ListMeasurements measurements
+ListMeasurements measurements {SensorName}
+ListMeasurements measurements available {SensorName}
+ListMeasurements measurements available in the {SensorName}
 ListMeasurements to list the measurements
+ListMeasurements to list the measurements {SensorName}
 ListMeasurements to list the measurements available {SensorName}
 ListMeasurements to list the measurements available in the {SensorName}
-ListMeasurements what are the measurements
-ListMeasurements what are the measurements available {SensorName}
-ListMeasurements what are the measurements available in the {SensorName}
 
 ListSensors my sensors
 ListSensors to list my sensors

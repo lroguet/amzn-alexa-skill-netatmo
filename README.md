@@ -18,9 +18,15 @@ The skill supports oAuth so you only need to grant the skill access to your Neta
 * temperature
 
 ## Usage
-### List sensors
+### List available sensors
 > Alexa, ask atmo what are my sensors?   
 > Alexa, ask atmo what sensors do I have?
+
+### List available measurements
+Assume the answer to *List sensors* was 'You can retrieve weather data from the following sensors: indoors, outdoors.' you can now try saying:
+
+> Alexa, ask atmo what are the measurements available indoors?
+> Alexa, ask atmo to list the measurements available outdoors.
 
 ### Get measurements
 Assume the answer to *List sensors* was 'You can retrieve weather data from the following sensors: indoors, outdoors.' you can now try saying:
@@ -36,6 +42,7 @@ Here is a simple but nice *Datadog* dashboard showing some of the behind the sce
 ## Q&A
 ### What if I don't specify a sensor?
 
+> Alexa, ask atmo to list the measurements available.
 > Alexa, ask atmo to give me the humidity
 
-**Atmo** will try to retrieve the measurement from your base station (or the first base station if you have several).
+**Atmo** will try to retrieve the available measurements or the specified measurement from your base station (or the first base station if you have several).
