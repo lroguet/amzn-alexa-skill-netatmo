@@ -41,7 +41,7 @@ Here is a simple but nice *Datadog* dashboard showing some of the behind the sce
 > Alexa, ask atmo to list the measurements available.   
 > Alexa, ask atmo to give me the humidity
 
-**Atmo** will try to retrieve a list of available measurements or the specified measurement from your base station (or the first base station if you have several).
+**Atmo** will try to retrieve a list of available measurements or the specified measurement from your base station or the first base station if you have several.
 
 # To do
 I tried to make **atmo** as easy as possible to extend with new intents, utterances and texts to be converted to speech and spoken back to the user (you) but, as always, there has to be room for improvements. Feel free to fork and create pull requests.
