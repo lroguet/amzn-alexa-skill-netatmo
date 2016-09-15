@@ -1,12 +1,12 @@
 # Amazon Echo, Dot, Tap, ... and Netatmo
 
 ## Foreword
-**Atmo** is an **Alexa skill for Netatmo** weather stations. Unlike [Netatmo-Alexa](https://github.com/andypiper/Netatmo-Alexa) (which I had a look at to get started) **Atmo** makes its requests towards a non-deprecated (as of May, 2016) Netatmo API & uses oAuth for authentication.
+**Atmo** is an **Alexa skill for Netatmo** weather stations.
 
-I tried to make it as easy as possible to extend the skill with new intents, utterances and texts to be converted to speech and spoken back to the user (you) but, as always, there has to be room for improvements. Feel free to fork and create pull requests.
+I tried to make **atmo** as easy as possible to extend with new intents, utterances and texts to be converted to speech and spoken back to the user (you) but, as always, there has to be room for improvements. Feel free to fork and create pull requests.
 
 ## Setup
-The skill supports oAuth so you only need to grant the skill access to your Netatmo weather station measurements from the Alexa App when you enable the skill for the first time.
+**Atmo** supports oAuth so you only need to grant the skill access to your Netatmo weather station measurements from the Alexa App when you enable the skill for the first time.
 
 ![Netatmo Weather Station](https://raw.githubusercontent.com/lroguet/amzn-alexa-skill-netatmo/master/assets/images/netatmo-weather-station.jpg)
 
@@ -46,3 +46,6 @@ Here is a simple but nice *Datadog* dashboard showing some of the behind the sce
 > Alexa, ask atmo to give me the humidity
 
 **Atmo** will try to retrieve the available measurements or the specified measurement from your base station (or the first base station if you have several).
+
+## To do
+* **Atmo** currently does not support the rain and wind gauges. Adding support for these modules would be rather straight forward but I don't own them and therefore could not properly test.
