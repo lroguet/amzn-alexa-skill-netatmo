@@ -1,10 +1,9 @@
 'use strict';
 
 // --- Configuration -----------------------------------------------------------
+var MESSAGES, NETATMO, SKILL;
 var CREDENTIALS = require('./conf/credentials.json');
-var MESSAGES = require('./conf/messages.json');
-var SKILL = require('./conf/skill.json');
-var NETATMO = require('./conf/netatmo.json');
+var SETTINGS = require('./conf/settings.json');
 // -----------------------------------------------------------------------------
 
 // --- Libraries ---------------------------------------------------------------
@@ -34,11 +33,31 @@ var data;
 
 exports.handler = function(event, context, callback) {
 
+  // Localize resources
+  localize(event);
   // Fetch weather data right now since it's pretty much required for
   // all intents, then move on to 'Atmo'
   getAllWeatherStationData(event, context, atmo);
 
 };
+
+// Localize resources
+function localize(event) {
+
+  // Selecting human facing resources based on the skill locale
+  // Defaulting to en-US
+  var locale = "en-US";
+  if(SETTINGS.locales.indexOf(event.request.locale) > -1) {
+    locale = event.request.locale;
+  }
+  console.log("User locale: " + event.request.locale + ", skill locale: " + locale);
+
+  var localized = './conf/' + locale;
+  MESSAGES = require(localized '/messages.json');
+  NETATMO = require(localized + '/netatmo.json');
+  SKILL = require(localized + '/skill.json');
+
+}
 
 // Main function
 function atmo(event, context) {
