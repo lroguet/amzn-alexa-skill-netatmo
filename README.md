@@ -2,7 +2,7 @@
 **Atmo** is an **Alexa skill for Netatmo** personal weather stations.
 
 # Setup
-**Atmo** supports oAuth so you only need to grant the skill access to your Netatmo weather station measurements from the Alexa App when you enable the skill for the first time.
+**Atmo** supports oAuth so you only need to grant the skill access to your Netatmo weather station measurements from the Alexa companion App when you enable the skill for the first time.
 
 ![Netatmo Weather Station](https://raw.githubusercontent.com/lroguet/amzn-alexa-skill-netatmo/master/assets/images/netatmo-weather-station.jpg)
 
