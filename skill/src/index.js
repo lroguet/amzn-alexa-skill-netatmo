@@ -101,12 +101,8 @@ var handlers = {
   },
   'AMAZON.HelpIntent': function() {
     if(canProvideWithResponse(this)) {
-      if(hasWeatherData()) {
         var message = UTIL.format(MESSAGES.voice.help, SKILL.title, getSpokenOrDefaultSensorName(null));
         this.emit(':ask', message, message);
-      } else {
-        this.emit(':tell', MESSAGES.voice.weatherStationNotFound);
-      }
     }
   },
   'AMAZON.YesIntent': function() {
@@ -144,6 +140,12 @@ function canProvideWithResponse(context) {
     return false;
   }
 
+  // No weather data could be found in the linked Netatmo account
+  if(!hasWeatherData()) {
+    context.emit(':tell', MESSAGES.voice.weatherStationNotFound);
+    return false;
+  }
+
   // Things are looking good
   return true;
 
@@ -152,8 +154,6 @@ function canProvideWithResponse(context) {
 // --- Helpers for intents -----------------------------------------------------
 
 function getTheSensorAvailableMeasurements(sensor) {
-
-  if(hasWeatherData()) {
 
     var _data = JSON.parse(getSanitized(JSON.stringify(data)));
     var _sensor = getSanitized(sensor);
@@ -173,30 +173,19 @@ function getTheSensorAvailableMeasurements(sensor) {
 
     return UTIL.format(MESSAGES.voice.measurements, sensor, result.join(", "));
 
-  } else {
-    return MESSAGES.voice.weatherStationNotFound;
-  }
-
 }
 
 function getTheWeatherStationSensors() {
 
-  if(hasWeatherData()) {
     // Find the name of the base station name & all the additional modules
     var pattern = "[ body.devices[].modules[].module_name, body.devices[].module_name ] | []";
     var result = JMESPATH.search(data, pattern);
     return UTIL.format(MESSAGES.voice.sensors, result.join(", "));
-  } else {
-    return MESSAGES.voice.weatherStationNotFound;
-  }
 
 }
 
 function getTheWeatherStationData(measurement, sensor) {
 
-  if(hasWeatherData()) {
-
-    // console.log("Data", JSON.stringify(data));
     var _data = JSON.parse(getSanitized(JSON.stringify(data)));
     var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
     var _sensor = getSanitized(sensor);
@@ -223,26 +212,26 @@ function getTheWeatherStationData(measurement, sensor) {
     // All good, we've got something to say back to the user
     return UTIL.format(MESSAGES.voice.measurement, NAMES[dataType], value, unit, sensor);
 
-  } else {
-    return MESSAGES.voice.weatherStationNotFound;
-  }
-
 }
 
 function getSpokenOrDefaultSensorName(intent) {
+
     if(intent && intent.slots && intent.slots.SensorName && intent.slots.SensorName.value) {
       return intent.slots.SensorName.value;
     } else {
       return JMESPATH.search(data, "body.devices[0].module_name");
     }
+
 }
 
 function getSpokenOrDefaultMeasurementName(intent) {
+
   if(intent && intent.slots && intent.slots.MeasurementName && intent.slots.MeasurementName.value) {
     return intent.slots.MeasurementName.value
   } else {
     return 'temperature';
   }
+
 }
 
 function getUserUnits() {
