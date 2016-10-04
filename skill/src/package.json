@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "alexa-sdk": "1.0.6",
+    "jmespath": "0.15.0"
+  },
+  "description": "Alexa skill for Netatmo personal weather stations.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lroguet/amzn-alexa-skill-netatmo.git"
+  }
+}
