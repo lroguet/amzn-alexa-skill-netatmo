@@ -53,7 +53,7 @@ function localize(event) {
   console.log("User locale: " + event.request.locale + ", skill locale: " + locale);
 
   var localized = './conf/' + locale;
-  MESSAGES = require(localized '/messages.json');
+  MESSAGES = require(localized + '/messages.json');
   NETATMO = require(localized + '/netatmo.json');
   SKILL = require(localized + '/skill.json');
 
@@ -121,7 +121,6 @@ var handlers = {
     this.emit('AMAZON.HelpIntent');
   }
 };
-
 
 // --- Error handler -----------------------------------------------------------
 // Returns true if the user request can be fulfilled, emits the appropriate
