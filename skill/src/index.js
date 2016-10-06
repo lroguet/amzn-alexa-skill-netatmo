@@ -3,7 +3,6 @@
 // --- Configuration -----------------------------------------------------------
 var MESSAGES, NETATMO, SKILL;
 var CREDENTIALS = require('./conf/credentials.json');
-var SETTINGS = require('./conf/settings.json');
 // -----------------------------------------------------------------------------
 
 // --- Libraries ---------------------------------------------------------------
@@ -46,16 +45,18 @@ function localize(event) {
 
   // Selecting human facing resources based on the skill locale
   // Defaulting to en-US
-  var locale = "en-US";
-  if(SETTINGS.locales.indexOf(event.request.locale) > -1) {
-    locale = event.request.locale;
-  }
-  console.log("User locale: " + event.request.locale + ", skill locale: " + locale);
 
-  var localized = './conf/' + locale;
-  MESSAGES = require(localized + '/messages.json');
-  NETATMO = require(localized + '/netatmo.json');
-  SKILL = require(localized + '/skill.json');
+  var locale = event.request.locale;
+  try {
+    MESSAGES = require('./conf/' + locale + '/messages.json');
+    NETATMO = require('./conf/' + locale + '/netatmo.json');
+    SKILL = require('./conf/' + locale + '/skill.json');
+  } catch(error) {
+    console.error("Locale " + locale + " not supported. Defaulting to en-US");
+    MESSAGES = require('./conf/en-US/messages.json');
+    NETATMO = require('./conf/en-US/netatmo.json');
+    SKILL = require('./conf/en-US/skill.json');
+  }
 
 }
 
