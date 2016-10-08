@@ -8,6 +8,7 @@
     "noise level": "noise",
     "pressure": "pressure",
     "pressure level": "pressure",
+    "rain": "rain",
     "temperature": "temperature",
     "temperature level": "temperature"
   },
@@ -16,6 +17,7 @@
     "humidity": "humidity",
     "noise": "noise level",
     "pressure": "pressure",
+    "rain": "rain",
     "temperature": "temperature",
     "wind": "wind speed"
   },
@@ -27,6 +29,10 @@
       "mbar",
       "inHg",
       "mmHg"
+    ],
+    "rain": [
+      "mm",
+      "in"
     ],
     "temperature": [
       "Celsius",

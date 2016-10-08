@@ -13,10 +13,6 @@ var QUERYSTRING = require('querystring');
 var UTIL = require('util');
 // -----------------------------------------------------------------------------
 
-var NAMES = NETATMO.dataTypeToSpeech;
-var SLOTS = NETATMO.slotToDataType;
-var UNITS = NETATMO.dataTypeToUnit;
-
 var ERRORS = {
   ACCESS_TOKEN_NA: '_ACCESS_TOKEN_NA',
   NETATMO_API_ERROR: '_NETATMO_API_ERROR'
@@ -168,7 +164,7 @@ function getTheSensorAvailableMeasurements(sensor) {
 
     // Replace data types with speech values
     for(var i = 0; i < result.length; i++) {
-      result[i] = NAMES[result[i]];
+      result[i] = NETATMO.dataTypeToSpeech[result[i]];
     }
 
     return UTIL.format(MESSAGES.voice.measurements, sensor, result.join(", "));
@@ -190,8 +186,7 @@ function getTheWeatherStationData(measurement, sensor) {
     var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
     var _sensor = getSanitized(sensor);
 
-    // console.log("Got '" + measurement + "' on '" + sensor + "'.");
-    // console.log("Looking for '" + dataType + "' on '" + _sensor + "'.");
+    // console.log(JSON.stringify(data));
 
     // Exit if the sensor does not exist
     if(!sensorExists(_data, _sensor)) {
@@ -210,7 +205,7 @@ function getTheWeatherStationData(measurement, sensor) {
     var unit = getUserUnits()[dataType];
 
     // All good, we've got something to say back to the user
-    return UTIL.format(MESSAGES.voice.measurement, NAMES[dataType], value, unit, sensor);
+    return UTIL.format(MESSAGES.voice.measurement, NETATMO.dataTypeToSpeech[dataType], value, unit, sensor);
 
 }
 
@@ -238,11 +233,12 @@ function getUserUnits() {
 
     // Intent custom slot to unit
     return {
-        "co2": UNITS.co2,
-        "humidity": UNITS.humidity,
-        "noise": UNITS.noise,
-        "pressure": UNITS.pressure[JMESPATH.search(data, "body.user.administrative.pressureunit")],
-        "temperature": "degrees " + UNITS.temperature[JMESPATH.search(data, "body.user.administrative.unit")]
+        "co2": NETATMO.dataTypeToUnit.co2,
+        "humidity": NETATMO.dataTypeToUnit.humidity,
+        "noise": NETATMO.dataTypeToUnit.noise,
+        "pressure": NETATMO.dataTypeToUnit.pressure[JMESPATH.search(data, "body.user.administrative.pressureunit")],
+        "rain": NETATMO.dataTypeToUnit.rain[JMESPATH.search(data, "body.user.administrative.unit")],
+        "temperature": "degrees " + NETATMO.dataTypeToUnit.temperature[JMESPATH.search(data, "body.user.administrative.unit")]
     };
 
 }
