@@ -6,6 +6,7 @@
     "measurement": "The %s is %s %s according to the sensor named %s.",
     "measurements": "The sensor named %s can provide you with: %s.",
     "measurementNotFound": "%s is not a measurement available on the sensor named %s.",
+    "noIntent": "Okay. Talk to you later.",
     "sensorNotFound": "I could not find a sensor named %s in your Netatmo setup.",
     "sensors": "You can retrieve weather data from the following sensors: %s.",
     "weatherStationNotFound": "I could not find a weather station linked to your Netatmo account.",

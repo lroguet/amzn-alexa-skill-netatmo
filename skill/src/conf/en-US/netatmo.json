@@ -9,6 +9,7 @@
     "pressure": "pressure",
     "pressure level": "pressure",
     "rain": "rain",
+    "rainfall": "rain",
     "temperature": "temperature",
     "temperature level": "temperature"
   },
@@ -17,7 +18,7 @@
     "humidity": "humidity",
     "noise": "noise level",
     "pressure": "pressure",
-    "rain": "rain",
+    "rain": "rainfall",
     "temperature": "temperature",
     "wind": "wind speed"
   },
@@ -31,16 +32,16 @@
       "mmHg"
     ],
     "rain": [
-      "mm",
-      "in"
+      "mm/h",
+      "in/h"
     ],
     "temperature": [
       "Celsius",
       "Fahrenheit"
     ],
     "wind": [
-      "kph",
-      "mph",
+      "km/h",
+      "mi/h",
       "ms",
       "beaufort",
       "knot"

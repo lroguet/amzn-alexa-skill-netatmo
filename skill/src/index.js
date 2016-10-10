@@ -17,7 +17,6 @@ var ERRORS = {
   ACCESS_TOKEN_NA: '_ACCESS_TOKEN_NA',
   NETATMO_API_ERROR: '_NETATMO_API_ERROR'
 };
-var UNDEFINED = 'undefined';
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -106,7 +105,7 @@ var handlers = {
     this.emit('GetMeasurement');
   },
   'AMAZON.NoIntent': function() {
-    this.emit(':tell', "Okay. Talk to you later.");
+    this.emit(':tell', MESSAGES.voice.noIntent);
   },
   'AMAZON.CancelIntent': function() {
     this.emit('AMAZON.NoIntent');
@@ -173,7 +172,7 @@ function getTheSensorAvailableMeasurements(sensor) {
 
 function getTheWeatherStationSensors() {
 
-    // Find the name of the base station name & all the additional modules
+    // Find the name of the base station & all the additional modules
     var pattern = "[ body.devices[].modules[].module_name, body.devices[].module_name ] | []";
     var result = JMESPATH.search(data, pattern);
     return UTIL.format(MESSAGES.voice.sensors, result.join(", "));
@@ -209,6 +208,7 @@ function getTheWeatherStationData(measurement, sensor) {
 
 }
 
+// TODO - The rain and wind related measurements could default to their respective modules
 function getSpokenOrDefaultSensorName(intent) {
 
     if(intent && intent.slots && intent.slots.SensorName && intent.slots.SensorName.value) {
