@@ -150,16 +150,15 @@ function canProvideWithResponse(context) {
 
 function getTheSensorAvailableMeasurements(sensor) {
 
-    var _data = JSON.parse(getSanitized(JSON.stringify(data)));
     var _sensor = getSanitized(sensor);
 
     // Exit if the sensor does not exist
-    if(!sensorExists(_data, _sensor)) {
+    if(!sensorExists(data, _sensor)) {
       return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
     }
 
     var pattern = "[ body.devices[?module_name==`" + _sensor + "`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
-    var result = JMESPATH.search(_data, pattern);
+    var result = JMESPATH.search(data, pattern);
 
     // Replace data types with speech values
     for(var i = 0; i < result.length; i++) {
@@ -181,27 +180,26 @@ function getTheWeatherStationSensors() {
 
 function getTheWeatherStationData(measurement, sensor) {
 
-    var _data = JSON.parse(getSanitized(JSON.stringify(data)));
     var dataType = NETATMO.slotToDataType[getSanitized(measurement)];
     var _sensor = getSanitized(sensor);
 
     // console.log(JSON.stringify(data));
 
     // Exit if the sensor does not exist
-    if(!sensorExists(_data, _sensor)) {
+    if(!sensorExists(data, _sensor)) {
       return UTIL.format(MESSAGES.voice.sensorNotFound, sensor);
     }
 
     // Exit if the sensor cannot provide with the measurement
-    if(!dataTypeProvidedBySensor(_data, dataType, _sensor)) {
+    if(!dataTypeProvidedBySensor(data, dataType, _sensor)) {
       return UTIL.format(MESSAGES.voice.measurementNotFound, measurement, sensor);
     }
 
     // Get the value...
     var pattern = "[ body.devices[?module_name==`" + _sensor + "`].dashboard_data." + dataType + ", body.devices[].modules[?module_name==`" + _sensor + "`].dashboard_data." + dataType + " | [] ] | []";
-    var value = JMESPATH.search(_data, pattern);
+    var value = JMESPATH.search(data, pattern);
     // ... and the unit
-    var unit = getUserUnits()[dataType];
+    var unit = getUserUnit(dataType);
 
     // All good, we've got something to say back to the user
     return UTIL.format(MESSAGES.voice.measurement, NETATMO.dataTypeToSpeech[dataType], value, unit, sensor);
@@ -214,7 +212,22 @@ function getSpokenOrDefaultSensorName(intent) {
     if(intent && intent.slots && intent.slots.SensorName && intent.slots.SensorName.value) {
       return intent.slots.SensorName.value;
     } else {
-      return JMESPATH.search(data, "body.devices[0].module_name");
+      
+      var dataType = NETATMO.slotToDataType[getSanitized(getSpokenOrDefaultMeasurementName(intent))]; 
+      
+      var pattern;
+      switch (dataType) {
+        // #6 - Only one rain gauge can be added to a weather station
+        case 'rain':
+          pattern = "body.devices[].modules[?data_type[0] == 'Rain'].module_name | [] | join(', ', @)";
+          break;
+        // Otherwise we'll fetch from the main module
+        default:
+          pattern = "body.devices[0].module_name";
+      }
+
+      return JMESPATH.search(data, pattern);
+
     }
 
 }
@@ -229,10 +242,10 @@ function getSpokenOrDefaultMeasurementName(intent) {
 
 }
 
-function getUserUnits() {
+function getUserUnit(dataType) {
 
     // Intent custom slot to unit
-    return {
+    var units = {
         "co2": NETATMO.dataTypeToUnit.co2,
         "humidity": NETATMO.dataTypeToUnit.humidity,
         "noise": NETATMO.dataTypeToUnit.noise,
@@ -240,6 +253,8 @@ function getUserUnits() {
         "rain": NETATMO.dataTypeToUnit.rain[JMESPATH.search(data, "body.user.administrative.unit")],
         "temperature": "degrees " + NETATMO.dataTypeToUnit.temperature[JMESPATH.search(data, "body.user.administrative.unit")]
     };
+
+    return units[dataType];
 
 }
 
@@ -266,7 +281,8 @@ function dataTypeProvidedBySensor(data, dataType, sensor) {
 function getSanitized(text) {
 
   text = text.replace(/[']/g, ""); // Kid's bedroom => Kids bedroom
-  return text.toLocaleLowerCase();
+  text = text.toLocaleLowerCase();
+  return text;
 
 }
 
@@ -328,7 +344,7 @@ function getAllWeatherStationData(event, context, callback) {
       });
       // Response received
       response.on('end', function() {
-        data = JSON.parse(incoming);
+        data = JSON.parse(getSanitized(incoming));
         callback(event, context)
       });
     });
