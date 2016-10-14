@@ -219,7 +219,7 @@ function getSpokenOrDefaultSensorName(intent) {
       switch (dataType) {
         // #6 - Only one rain gauge can be added to a weather station
         case 'rain':
-          pattern = "body.devices[].modules[?data_type[0] == 'Rain'].module_name | [] | join(', ', @)";
+          pattern = "body.devices[].modules[?data_type[0] == 'rain'].module_name | [] | join(', ', @)";
           break;
         // Otherwise we'll fetch from the main module
         default:
