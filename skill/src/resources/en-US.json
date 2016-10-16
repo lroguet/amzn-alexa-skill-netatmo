@@ -14,10 +14,12 @@
   },
   "dataTypes": {
     "co2": "carbon dioxide level",
+    "guststrength": "gust speed",
     "humidity": "humidity",
     "noise": "noise level",
     "pressure": "pressure",
     "rain": "rainfall",
-    "temperature": "temperature"
+    "temperature": "temperature",
+    "windstrength": "wind speed"
   }
 }

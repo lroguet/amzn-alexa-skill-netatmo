@@ -11,11 +11,13 @@ module.exports = class Units {
     var allUnits = require('./conf/units.json');
     this._userUnits = {
       "co2": allUnits.co2,
+      "guststrength": allUnits.wind[JMESPATH.search(data, "body.user.administrative.windunit")],
       "humidity": allUnits.humidity,
       "noise": allUnits.noise,
       "pressure": allUnits.pressure[JMESPATH.search(data, "body.user.administrative.pressureunit")],
       "rain": allUnits.rain[JMESPATH.search(data, "body.user.administrative.unit")],
-      "temperature": "degrees " + allUnits.temperature[JMESPATH.search(data, "body.user.administrative.unit")]
+      "temperature": "degrees " + allUnits.temperature[JMESPATH.search(data, "body.user.administrative.unit")],
+      "windstrength": allUnits.wind[JMESPATH.search(data, "body.user.administrative.windunit")]
     };
 
   }

@@ -82,7 +82,7 @@ var handlers = {
   },
   'AMAZON.HelpIntent': function () {
     if (canProvideWithResponse(this)) {
-      var message = UTIL.format(resources.getSpeechForOuput("help"), SKILL.title, getSpokenOrDefaultSensorName(null));
+      var message = UTIL.format(resources.getSpeechForOutput("help"), SKILL.title, getSpokenOrDefaultSensorName(null));
       this.emit(':ask', message, message);
     }
   },
@@ -90,7 +90,7 @@ var handlers = {
     this.emit('GetMeasurement');
   },
   'AMAZON.NoIntent': function () {
-    this.emit(':tell', resources.getSpeechForOuput("noIntent"));
+    this.emit(':tell', resources.getSpeechForOutput("noIntent"));
   },
   'AMAZON.CancelIntent': function () {
     this.emit('AMAZON.NoIntent');
@@ -110,19 +110,19 @@ function canProvideWithResponse(context) {
 
   // Access token to the Netatmo API was not provided, emits a link account card
   if (!accessTokenWasProvided()) {
-    context.emit(':tellWithLinkAccountCard', UTIL.format(resources.getSpeechForOuput("accountLinking"), SKILL.title));
+    context.emit(':tellWithLinkAccountCard', UTIL.format(resources.getSpeechForOutput("accountLinking"), SKILL.title));
     return false;
   }
 
   // An error occured while contacting the Netatmo API, emits an error message
   if (!communicationWasSuccessful()) {
-    context.emit(':tell', resources.getSpeechForOuput("apiError"));
+    context.emit(':tell', resources.getSpeechForOutput("apiError"));
     return false;
   }
 
   // No weather data could be found in the linked Netatmo account
   if (!hasWeatherData()) {
-    context.emit(':tell', resources.getSpeechForOuput("weatherStationNotFound"));
+    context.emit(':tell', resources.getSpeechForOutput("weatherStationNotFound"));
     return false;
   }
 
@@ -139,7 +139,7 @@ function getTheSensorAvailableMeasurements(sensor) {
 
   // Exit if the sensor does not exist
   if (!sensorExists(data, _sensor)) {
-    return UTIL.format(resources.getSpeechForOuput("sensorNotFound"), sensor);
+    return UTIL.format(resources.getSpeechForOutput("sensorNotFound"), sensor);
   }
 
   var pattern = "[ body.devices[?module_name==`" + _sensor + "`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
@@ -150,7 +150,7 @@ function getTheSensorAvailableMeasurements(sensor) {
     result[i] = resources.getSpeechForDataType(result[i]);
   }
 
-  return UTIL.format(resources.getSpeechForOuput("measurements"), sensor, result.join(", "));
+  return UTIL.format(resources.getSpeechForOutput("measurements"), sensor, result.join(", "));
 
 }
 
@@ -159,7 +159,7 @@ function getTheWeatherStationSensors() {
   // Find the name of the base station & all the additional modules
   var pattern = "[ body.devices[].modules[].module_name, body.devices[].module_name ] | []";
   var result = JMESPATH.search(data, pattern);
-  return UTIL.format(resources.getSpeechForOuput("sensors"), result.join(", "));
+  return UTIL.format(resources.getSpeechForOutput("sensors"), result.join(", "));
 
 }
 
@@ -208,9 +208,17 @@ function getSpokenOrDefaultSensorName(intent) {
 
     var pattern;
     switch (dataType) {
+      // #2 - Only one wind gauge can be added to a weather station
+      case 'guststrength':
+        pattern = "body.devices[].modules[?data_type[0] == 'wind'].module_name | [] | join(', ', @)";
+        break;
       // #6 - Only one rain gauge can be added to a weather station
       case 'rain':
         pattern = "body.devices[].modules[?data_type[0] == 'rain'].module_name | [] | join(', ', @)";
+        break;
+      // #2 - Only one wind gauge can be added to a weather station
+      case 'windstrength':
+        pattern = "body.devices[].modules[?data_type[0] == 'wind'].module_name | [] | join(', ', @)";
         break;
       // Otherwise we'll fetch from the main module
       default:
