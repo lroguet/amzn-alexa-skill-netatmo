@@ -8,11 +8,13 @@
 
 # Supported measurements
 * carbon dioxide level
+* gust speed
 * humidity
 * noise level
 * pressure
 * rainfall
 * temperature
+* wind speed
 
 # Usage
 ## List available sensors (ListSensors)
