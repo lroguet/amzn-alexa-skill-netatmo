@@ -11,11 +11,9 @@ module.exports = class Resources {
 
   constructor(locale) {
 
-    // var resources;
     try {
       this._resources = require('./resources/' + locale + '.json');
     } catch (error) {
-      // console.error("Could not load resources for: " + locale);
       this._resources = require('./resources/en-US.json');
     }
 
@@ -40,8 +38,6 @@ module.exports = class Resources {
   // Returns the data type for a given speech
   // Example. 'co2' for 'carbon dioxide level'
   getDataTypeForSpeech(speech) {
-    console.log(this._customSlots);
-    console.log("Speech: " + speech);
     return this._customSlots[speech] ? this._customSlots[speech] : undefinedCustomSlot;
   }
 
