@@ -1,0 +1,25 @@
+{
+  "co2": "ppm",
+  "humidity": "%",
+  "noise": "dB",
+  "pressure": [
+    "mbar",
+    "inHg",
+    "mmHg"
+  ],
+  "rain": [
+    "mm/h",
+    "in/h"
+  ],
+  "temperature": [
+    "Celsius",
+    "Fahrenheit"
+  ],
+  "wind": [
+    "km/h",
+    "mi/h",
+    "ms",
+    "beaufort",
+    "knot"
+  ]
+}
