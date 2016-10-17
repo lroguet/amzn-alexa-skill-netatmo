@@ -31,7 +31,7 @@ For the intents below, let's assume the response to a *ListSensors* intent was: 
 ## Get measurements (GetMeasurement)
 
 > Alexa, ask atmo what's the temperature indoors?   
-> Alexa, ask atmo to give me the humidity outdoors.
+> Alexa, ask atmo to give me the humidity outdoors.   
 > Alexa, ask atmo to tell me the carbon dioxide level in the kid's bedroom.
 
 Rinse and repeat with other measurements: _noise level_, _pressure_ & _wind speed_ for example.
