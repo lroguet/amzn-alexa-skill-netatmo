@@ -21,19 +21,20 @@
 > Alexa, ask atmo what are my sensors?   
 > Alexa, ask atmo what sensors do I have?
 
-For the intents below, let's assume the response to a *ListSensors* intent was: *You can retrieve weather data from the following sensors: __indoors__, __outdoors__.*
+For the intents below, let's assume the response to a *ListSensors* intent was: *You can retrieve weather data from the following sensors: __indoors__, __outdoors__ and __kid's bedroom__.*
 
 ## List available measurements (ListMeasurements)
 
 > Alexa, ask atmo what are the measurements available indoors?   
-> Alexa, ask atmo to list the measurements available outdoors.
+> Alexa, ask atmo to list the measurements available in the kid's bedroom.
 
 ## Get measurements (GetMeasurement)
 
 > Alexa, ask atmo what's the temperature indoors?   
 > Alexa, ask atmo to give me the humidity outdoors.
+> Alexa, ask atmo to tell me the carbon dioxide level in the kid's bedroom.
 
-*Rinse and repeat with other measurements: "carbon dioxide level", "noise level" & "pressure" for example.*
+Rinse and repeat with other measurements: _noise level_, _pressure_ & _wind speed_ for example.
 
 # Behind the scenes
 Here is a simple but nice *Datadog* dashboard showing some of the behind the scenes metrics for the **Atmo** Alexa skill: https://p.datadoghq.com/sb/8e976d062-778e4deb2a
