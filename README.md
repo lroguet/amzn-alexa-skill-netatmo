@@ -34,7 +34,7 @@ For the intents below, let's assume the response to a *ListSensors* intent was: 
 > Alexa, ask atmo to give me the humidity outdoors.   
 > Alexa, ask atmo to tell me the carbon dioxide level in the kid's bedroom.
 
-Rinse and repeat with other measurements: _noise level_, _pressure_ & _wind speed_ for example.
+Rinse and repeat with other measurements (_noise level_, _pressure_ & _wind speed_ for example) and sensors.
 
 # Behind the scenes
 Here is a simple but nice *Datadog* dashboard showing some of the behind the scenes metrics for the **Atmo** Alexa skill: https://p.datadoghq.com/sb/8e976d062-778e4deb2a
