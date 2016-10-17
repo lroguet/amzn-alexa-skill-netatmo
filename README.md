@@ -21,7 +21,7 @@
 > Alexa, ask atmo what are my sensors?   
 > Alexa, ask atmo what sensors do I have?
 
-For the intents below, let's assume the response to a *ListSensors* intent was: *You can retrieve weather data from the following sensors: __indoors__, __outdoors__ and __kid's bedroom__.*
+For the intents below, let's assume the response to a *ListSensors* intent was: *You can retrieve weather data from the following sensors: __indoors__, __outdoors__, __kid's bedroom__.*
 
 ## List available measurements (ListMeasurements)
 
