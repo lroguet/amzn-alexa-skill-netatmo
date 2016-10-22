@@ -1,6 +1,9 @@
 GetMeasurement {MeasurementName}
 GetMeasurement {MeasurementName} {SensorName}
 GetMeasurement {MeasurementName} in the {SensorName}
+GetMeasurement the {MeasurementName}
+GetMeasurement the {MeasurementName} {SensorName}
+GetMeasurement the {MeasurementName} in the {SensorName}
 GetMeasurement get me the {MeasurementName}
 GetMeasurement get me the {MeasurementName} {SensorName}
 GetMeasurement get me the {MeasurementName} in the {SensorName}
