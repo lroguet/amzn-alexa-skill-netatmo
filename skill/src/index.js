@@ -331,6 +331,12 @@ function getAllWeatherStationData(event, context, callback) {
         callback(event, context)
       });
     });
+
+  request.on('error', function (error) {
+    data = ERRORS.NETATMO_API_ERROR;
+    callback(event, context);
+  });
+
   request.write(requestData);
   request.end();
 
