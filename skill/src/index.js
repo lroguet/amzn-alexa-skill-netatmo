@@ -1,5 +1,7 @@
 'use strict';
 
+var DEBUG_MODE = true;
+
 // --- Configuration -----------------------------------------------------------
 var CREDENTIALS = require('./conf/credentials.json');
 var SKILL = require('./conf/skill.json');
@@ -54,12 +56,12 @@ function atmo(event, context) {
 var handlers = {
   'GetMeasurement': function () {
     if (canProvideWithResponse(this)) {
-      this.emit(':tell',
-        getTheWeatherStationData(
-          getSpokenOrDefaultMeasurementName(this.event.request.intent),
-          getSpokenOrDefaultSensorName(this.event.request.intent)
-        )
+      var message = getTheWeatherStationData(
+        getSpokenOrDefaultMeasurementName(this.event.request.intent),
+        getSpokenOrDefaultSensorName(this.event.request.intent)
       );
+      log(message);
+      this.emit(':tell', message);
     }
   },
   'LaunchRequest': function () {
@@ -68,21 +70,24 @@ var handlers = {
   },
   'ListMeasurements': function () {
     if (canProvideWithResponse(this)) {
-      this.emit(':tell',
-        getTheSensorAvailableMeasurements(
-          getSpokenOrDefaultSensorName(this.event.request.intent)
-        )
+      var message = getTheSensorAvailableMeasurements(
+        getSpokenOrDefaultSensorName(this.event.request.intent)
       );
+      log(message);
+      this.emit(':tell', message);
     }
   },
   'ListSensors': function () {
     if (canProvideWithResponse(this)) {
-      this.emit(':tell', getTheWeatherStationSensors());
+      var message = getTheWeatherStationSensors();
+      log(message);
+      this.emit(':tell', message);
     }
   },
   'AMAZON.HelpIntent': function () {
     if (canProvideWithResponse(this)) {
       var message = UTIL.format(resources.getSpeechForOutput("help"), SKILL.title, getSpokenOrDefaultSensorName(null));
+      log(message);
       this.emit(':ask', message, message);
     }
   },
@@ -108,21 +113,28 @@ var handlers = {
 // reponse and returns false otherwise.
 function canProvideWithResponse(context) {
 
+  var message;
   // Access token to the Netatmo API was not provided, emits a link account card
   if (!accessTokenWasProvided()) {
-    context.emit(':tellWithLinkAccountCard', UTIL.format(resources.getSpeechForOutput("accountLinking"), SKILL.title));
+    message = UTIL.format(resources.getSpeechForOutput("accountLinking"), SKILL.title);
+    log(message);
+    context.emit(':tellWithLinkAccountCard', message);
     return false;
   }
 
   // An error occured while contacting the Netatmo API, emits an error message
   if (!communicationWasSuccessful()) {
-    context.emit(':tell', resources.getSpeechForOutput("apiError"));
+    message = resources.getSpeechForOutput("apiError");
+    log(message);
+    context.emit(':tell', message);
     return false;
   }
 
   // No weather data could be found in the linked Netatmo account
   if (!hasWeatherData()) {
-    context.emit(':tell', resources.getSpeechForOutput("weatherStationNotFound"));
+    message = resources.getSpeechForOutput("weatherStationNotFound");
+    log(message);
+    context.emit(':tell', message);
     return false;
   }
 
@@ -190,7 +202,7 @@ function getTheWeatherStationData(measurement, sensor) {
   return UTIL.format(
     resources.getSpeechForOutput("measurement"),
     resources.getSpeechForDataType(dataType),
-    value,
+    units.getValue(dataType, value),
     units.getUnit(dataType),
     sensor
   );
@@ -287,6 +299,14 @@ function communicationWasSuccessful() {
 // Returns true if the access token to the Netatmo API was provided
 function accessTokenWasProvided() {
   return data != ERRORS.ACCESS_TOKEN_NA;
+}
+
+function log(message) {
+
+  if (DEBUG_MODE) {
+    console.log(message);
+  }
+
 }
 
 // Retrieves weather data from the Netatmo API
