@@ -35,33 +35,41 @@ module.exports = class Units {
   }
 
   // Returns the value in user units for the given data type
-  // Example. a temperature of 20 degress Celsius will be converted to 68
+  // Example. a temperature of 20 degress Celsius will be converted to 68 degrees Fahrenheit
   getValue(dataType, value) {
 
+    // Temperature
     if (dataType === 'temperature' && this._unit == 1) {
-      return (value * 1.8) + 32; // Celsius to Fahrenheit
-    } else if (dataType === 'rain' && this._unit == 1) {
+      return Math.round((value * 1.8) + 32); // Celsius to Fahrenheit
+    } 
+    // Rain
+    else if (dataType === 'rain' && this._unit == 1) {
       return value * 0.0393701; // mm/h to in/h
-    } else if ((dataType === 'guststrength' || dataType === 'windstrength') && this._windUnit > 0) {
+    }
+    // Wind
+    else if ((dataType === 'guststrength' || dataType === 'windstrength') && this._windUnit > 0) {
       switch (this._windUnit) {
         case 1:
-          return value * 0.621371; // mi/h
+          return value * 0.621371; // km/h to mi/h
         case 2:
-          return value * 0.277778; // m/s
+          return value * 0.277778; // km/h to m/s
         case 3:
-          return BEAUFORT(value, { unit: 'kmh', getName: false }); // beaufort
+          return BEAUFORT(value, { unit: 'kmh', getName: false }); // km/h to beaufort
         case 4:
-          return value * 0.539957; // knot
+          return value * 0.539957; // km/h to knot
       }
-    } else if (dataType === 'pressure' && this._pressureUnit > 0) {
+    }
+    // Pressure
+    else if (dataType === 'pressure' && this._pressureUnit > 0) {
       switch (this._pressureUnit) {
         case 1:
-          return value * 0.02953; // inHg
+          return value * 0.02953; // mbar to inHg
         case 2:
-          return value * 0.750062; // mmHg
+          return value * 0.750062; // mbar to mmHg
       }
-    } else {
-      // Otherwise: co2, humidity, noise and units that don't need to be converted
+    }
+    // // Otherwise: co2, humidity, noise and units that don't need to be converted
+    else {
       return value;
     }
 
