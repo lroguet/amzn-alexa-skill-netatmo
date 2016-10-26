@@ -154,15 +154,17 @@ function getTheSensorAvailableMeasurements(sensor) {
     return UTIL.format(resources.getSpeechForOutput("sensorNotFound"), sensor);
   }
 
-  var pattern = "[ body.devices[?module_name==`" + _sensor + "`].data_type, body.devices[].modules[?module_name==`" + _sensor + "`].data_type | [] ] | [][]";
+  var pattern = "[ body.devices[?module_name == `" + _sensor + "`].type, body.devices[].modules[?module_name == `" + _sensor + "`].type | [] ] | [] | join(', ', @)";
   var result = JMESPATH.search(data, pattern);
 
-  // Replace data types with speech values
-  for (var i = 0; i < result.length; i++) {
-    result[i] = resources.getSpeechForDataType(result[i]);
-  }
+  var Netatmo = require('./netatmo.js');
+  var dataTypes = new Netatmo().getDataTypes(result);
 
-  return UTIL.format(resources.getSpeechForOutput("measurements"), sensor, result.join(", "));
+  return UTIL.format(
+    resources.getSpeechForOutput("measurements"),
+    sensor,
+    resources.getSpeechesForDataTypes(dataTypes).join(", ")
+  );
 
 }
 

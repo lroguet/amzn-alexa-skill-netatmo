@@ -1,0 +1,27 @@
+{
+  "modules": {
+    "namain": [
+      "co2",
+      "humidity",
+      "noise",
+      "pressure",
+      "temperature"
+    ],
+    "namodule1": [
+      "humidity",
+      "temperature"
+    ],
+    "namodule2": [
+      "guststrength",
+      "windstrength"
+    ],
+    "namodule3": [
+      "rain"
+    ],
+    "namodule4": [
+      "co2",
+      "humidity",
+      "temperature"
+    ]
+  }
+}

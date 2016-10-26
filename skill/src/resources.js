@@ -35,6 +35,15 @@ module.exports = class Resources {
     return this._dataTypes[dataType] ? this._dataTypes[dataType] : undefinedDataType;
   }
 
+  // Returns an array of speeches for the given data types
+  getSpeechesForDataTypes(dataTypes) {
+    var tmp = [];
+    for (var i = 0; i < dataTypes.length; i++) {
+      tmp[i] = this._dataTypes[dataTypes[i]] ? this._dataTypes[dataTypes[i]] : undefinedDataType;
+    }
+    return tmp;
+  }
+
   // Returns the data type for a given speech
   // Example. 'co2' for 'carbon dioxide level'
   getDataTypeForSpeech(speech) {
