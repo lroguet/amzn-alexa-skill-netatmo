@@ -22,7 +22,7 @@ module.exports = class Units {
       "noise": allUnits.noise,
       "pressure": allUnits.pressure[this._pressureUnit],
       "rain": allUnits.rain[this._unit],
-      "temperature": "degrees " + allUnits.temperature[this._unit],
+      "temperature": allUnits.temperature[this._unit],
       "windstrength": allUnits.wind[this._windUnit]
     };
 

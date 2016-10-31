@@ -12,8 +12,8 @@
     "in/h"
   ],
   "temperature": [
-    "Celsius",
-    "Fahrenheit"
+    "°C",
+    "°F"
   ],
   "wind": [
     "km/h",
