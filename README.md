@@ -56,5 +56,5 @@ These are like donate buttons except you don't have to donate anything.
 * [Atmo](http://amzn.to/2fGvBIl) on Amazon.com
 * [Netatmo weather station](http://amzn.to/2ezRDtp) on Amazon.com
 * [Additional indoor module for Netatmo weather station](http://amzn.to/2eA4V9h) on Amazon.com
-* [Wind gauge for Netatmo weather station](http://amzn.to/2fGCk4T)
-* [Rain gauge for Netatmo weather station](http://amzn.to/2ebIiJY)
+* [Wind gauge for Netatmo weather station](http://amzn.to/2fGCk4T) on Amazon.com
+* [Rain gauge for Netatmo weather station](http://amzn.to/2ebIiJY) on Amazon.com
