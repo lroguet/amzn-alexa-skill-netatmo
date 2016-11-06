@@ -52,7 +52,7 @@ Here is a simple but nice *Datadog* dashboard showing some of the behind the sce
 See the [enhancements](https://github.com/lroguet/amzn-alexa-skill-netatmo/labels/enhancement) to-do list.
 
 # Affiliate links
-These are like donate buttons except you don't have to donate anything but treat yourself on Amazon.com.
+These are like donate buttons except you don't have to donate anything to support the project but treat yourself on Amazon.com.
 * [Atmo](http://amzn.to/2fGvBIl)
 * Netatmo [weather station](http://amzn.to/2ezRDtp)
 * [Additional indoor module](http://amzn.to/2eA4V9h) for Netatmo weather station
