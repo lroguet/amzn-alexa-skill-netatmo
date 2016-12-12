@@ -20,6 +20,14 @@ GetMeasurement what is the {MeasurementName}
 GetMeasurement what is the {MeasurementName} {SensorName}
 GetMeasurement what is the {MeasurementName} in the {SensorName}
 
+GetMeasurement {SensorName} {MeasurementName}
+GetMeasurement the {SensorName} {MeasurementName}
+GetMeasurement get me the {SensorName} {MeasurementName}
+GetMeasurement give me the {SensorName} {MeasurementName}
+GetMeasurement tell me the {SensorName} {MeasurementName}
+GetMeasurement what's the {SensorName} {MeasurementName}
+GetMeasurement what is the {SensorName} {MeasurementName}
+
 ListMeasurements measurements
 ListMeasurements measurements {SensorName}
 ListMeasurements measurements available {SensorName}
