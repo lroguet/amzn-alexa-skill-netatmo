@@ -148,6 +148,7 @@ function canProvideWithResponse(context) {
 function getTheSensorAvailableMeasurements(sensor) {
 
   var _sensor = getSanitized(sensor);
+  log("Available measurements on " + _sensor + " (" + sensor + ").");
 
   // Exit if the sensor does not exist
   if (!sensorExists(data, _sensor)) {
@@ -185,9 +186,11 @@ function getTheWeatherStationData(measurement, sensor) {
   var _sensor = getSanitized(sensor);
 
   // console.log(JSON.stringify(data));
+  log(dataType + " (" + measurement + ") on " + _sensor + " (" + sensor + ").");
 
   // Exit if the sensor does not exist
   if (!sensorExists(data, _sensor)) {
+    // TODO. Rain or wind related readings will result in an 'empty' sensor name, deal with it.
     return UTIL.format(resources.getSpeechForOutput("sensorNotFound"), sensor);
   }
 
